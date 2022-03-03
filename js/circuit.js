@@ -32,6 +32,8 @@ class Circuit{
 
         // total road length
         this.roadLength = null;
+
+        this.finish = false;
     }
 
     /**
@@ -45,7 +47,7 @@ class Circuit{
         this.createRoad();
 
         // colorize first segments in a starting color, and last segments in a finishing color
-        for (var n=0; n<this.rumbleSegments; n++){
+        for (var n=0; n<this.rumbleSegments*2; n++){
             this.segments[n].color.road = '0xFFFFFF';   // start
             this.segments[this.segments.length-1-n].color.road = '0x222222';    // finish
         }
@@ -187,6 +189,10 @@ class Circuit{
         // draw player
         var player = this.scene.player;
         this.texture.draw(player.sprite, player.screen.x, player.screen.y);
+
+        if(this.getSegment(camera.z).index === 290){
+            this.finish = true;
+        }
     }
 
     /**

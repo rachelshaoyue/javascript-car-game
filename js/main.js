@@ -22,9 +22,6 @@ const STATE_RESTART = 2;
 const STATE_PLAY = 3;
 const STATE_GAMEOVER = 4;
 
-// sprites
-const PLAYER = 0;
-
 // Global Variables
 
 // current state
@@ -45,6 +42,9 @@ class MainScene extends Phaser.Scene{
     preload(){
         this.load.image('bgImg', '../assets/bg_img.jpeg');
         this.load.image('playerImg', "../assets/player_car.png");
+        this.load.image('cityBg', '../assets/city_bg.png');
+        this.load.image('car1', '../assets/car1.png');
+        this.load.image('car2', '../assets/car2.png');
     }
 
     /**
@@ -53,18 +53,18 @@ class MainScene extends Phaser.Scene{
     create(){
         // backgrounds
         this.sprBack = this.add.image(SCREEN_CX, SCREEN_CY, 'bgImg');
-
-        // array of sprites that will be "manually" drawn on a rendering texture
-        // (that's why they must be invisible after creation)
-        this.sprites = [
-            this.add.image(0, 0, 'playerImg').setVisible(false).setScale(.7, .5)
-        ]
+        this.cityBack = [
+            this.add.image(1100, 250, 'cityBg').setScale(2.5).setAlpha(.5), 
+            this.add.image(500, 190, 'cityBg').setScale(1.8), 
+            this.add.image(1400, 250, 'cityBg').setScale(2)];
 
         // instances
+        this.cursors = this.input.keyboard.createCursorKeys();
         this.circuit = new Circuit(this);
         this.player = new Player(this);
         this.camera = new Camera(this);
         this.settings = new Settings(this);
+        this.cars = new Cars(this);
 
         // listener to pause game
         this.input.keyboard.on('keydown-P', function(){
@@ -93,6 +93,7 @@ class MainScene extends Phaser.Scene{
             case STATE_RESTART:
                 this.circuit.create();
                 this.player.restart();
+                this.cars.create();
 
                 state = STATE_PLAY;
                 break;
@@ -103,7 +104,11 @@ class MainScene extends Phaser.Scene{
                 this.player.update(dt);
                 this.camera.update();
                 this.circuit.render3D();
+                this.cars.update();
 
+                if(this.circuit.finish){
+                    state = STATE_GAMEOVER;
+                }
                 break;
             case STATE_GAMEOVER:
                 break;
@@ -138,6 +143,13 @@ var config = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
+    },
+
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false
+        }
     },
 
     scene: [MainScene, PauseScene]

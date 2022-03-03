@@ -3,8 +3,7 @@ class Player{
         // reference to the main scene
         this.scene = scene;
 
-        // reference to the player sprite
-        this.sprite = scene.sprites[PLAYER];
+        this.sprite = scene.physics.add.image(0, 0, 'playerImg').setVisible(false).setScale(.7, .5);
 
         // player world coordinates
         this.x = 0;
@@ -52,10 +51,24 @@ class Player{
     update(dt){
         // references to the scene objects
         var circuit = this.scene.circuit;
-        
+        var cursors = this.scene.cursors;
+
         // Moving in Z direction
         
         this.z += this.speed * dt;
         if (this.z >= circuit.roadLength) this.z -= circuit.roadLength;
+
+        if (cursors.left.isDown && this.sprite.x > -.8)
+        {
+            this.sprite.setVelocityX(-2);
+            this.x = this.sprite.x;
+        }
+        else if (cursors.right.isDown && this.sprite.x < .8)
+        {
+            this.sprite.setVelocityX(2);
+            this.x = this.sprite.x;
+        }else{
+            this.sprite.setVelocityX(0);
+        }
     }
 }
