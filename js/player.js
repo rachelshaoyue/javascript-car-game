@@ -3,13 +3,19 @@ class Player{
         // reference to the main scene
         this.scene = scene;
 
-        this.sprite = scene.physics.add.image(0, 0, 'playerImg').setVisible(false).setScale(.7, .5);
+        this.sprite = scene.physics.add.image(SCREEN_CX, SCREEN_H, 'playerImg').setVisible(true).setScale(.7, .6).refreshBody().setImmovable();
+        const scaledHeight = this.sprite.height * this.sprite.scale;
+        const scaledWidth = this.sprite.width * this.sprite.scale;
+        this.sprite.y -= (scaledHeight) / 2;
+        this.sprite.body.setSize(scaledWidth, scaledHeight)
+        this.sprite.setOffset(scaledWidth/3.5, scaledHeight/2);
+        this.sprite.setDepth(1);
 
         // player world coordinates
         this.x = 0;
         this.y = 0;
         this.z = 0;
-        this.w = (this.sprite.width/1000)*2;
+        // this.w = (this.sprite.width/1000)*2;
 
         // player screen coordinates
         this.screen = { x: 0, y: 0, h: 0 };
@@ -19,6 +25,9 @@ class Player{
 
         // driving control parameters
         this.speed = 0;
+
+        this.moveRight = true;
+        this.moveLeft = true;
     }
 
     /**
@@ -54,21 +63,31 @@ class Player{
         var cursors = this.scene.cursors;
 
         // Moving in Z direction
-        
+    
         this.z += this.speed * dt;
         if (this.z >= circuit.roadLength) this.z -= circuit.roadLength;
 
-        if (cursors.left.isDown && this.sprite.x > -.8)
+        if (cursors.left.isDown) //  && this.x > -0.8
         {
             this.sprite.setVelocityX(-2);
-            this.x = this.sprite.x;
+            this.x = this.sprite.x - SCREEN_CX;
         }
-        else if (cursors.right.isDown && this.sprite.x < .8)
+        else if (cursors.right.isDown) //  && this.x < 0.8
         {
             this.sprite.setVelocityX(2);
-            this.x = this.sprite.x;
+            this.x = this.sprite.x - SCREEN_CX;
+
         }else{
             this.sprite.setVelocityX(0);
         }
+
+    }
+
+    setMoveRight(flag){
+        this.moveRight = flag;
+    }
+
+    setMoveLeft(flag){
+        this.moveLeft = flag;
     }
 }

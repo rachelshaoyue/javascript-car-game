@@ -41,10 +41,10 @@ class MainScene extends Phaser.Scene{
      */
     preload(){
         this.load.image('bgImg', '../assets/bg_img.jpeg');
-        this.load.image('playerImg', "../assets/player_car.png");
         this.load.image('cityBg', '../assets/city_bg.png');
         this.load.image('car1', '../assets/car1.png');
         this.load.image('car2', '../assets/car2.png');
+        this.load.image('playerImg', "../assets/player_car.png");
     }
 
     /**
@@ -62,9 +62,13 @@ class MainScene extends Phaser.Scene{
         this.cursors = this.input.keyboard.createCursorKeys();
         this.circuit = new Circuit(this);
         this.player = new Player(this);
+        this.cars = new Cars(this);
         this.camera = new Camera(this);
         this.settings = new Settings(this);
-        this.cars = new Cars(this);
+
+        // add physics
+        this.physics.add.collider(this.cars.sprites, this.player.sprite, this.cars.hitPlayer, this.cars.test, this);
+        this.physics.add.collider(this.cars.sprites, this.player.sprite, this.cars.touchPlayer, this.cars.test, this);
 
         // listener to pause game
         this.input.keyboard.on('keydown-P', function(){
@@ -92,8 +96,11 @@ class MainScene extends Phaser.Scene{
                 break;
             case STATE_RESTART:
                 this.circuit.create();
-                this.player.restart();
                 this.cars.create();
+                this.player.restart();
+
+                // test
+                // this.circuit.render3D();
 
                 state = STATE_PLAY;
                 break;
@@ -148,7 +155,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: true
         }
     },
 

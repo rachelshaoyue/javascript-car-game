@@ -7,7 +7,7 @@ class Circuit{
         this.graphics = scene.add.graphics(0, 0);
 
         // texture to draw the sprites on it
-        this.texture = scene.add.renderTexture(0, 0, SCREEN_W, SCREEN_H);
+        // this.texture = scene.add.renderTexture(0, 0, SCREEN_W, SCREEN_H);
 
         // array of road segments
         this.segments = [];
@@ -181,14 +181,15 @@ class Circuit{
                 // move the clipping bottom line up
                 clipBottomLine = currBottomLine;
             }
-        }
 
+        }
+    
         // draw all the visible objects on the rendering texture
-        this.texture.clear();
+        // this.texture.clear();
 
         // draw player
-        var player = this.scene.player;
-        this.texture.draw(player.sprite, player.screen.x, player.screen.y);
+        // var player = this.scene.player;
+        // this.texture.draw(player.sprite, player.screen.x, player.screen.y);
 
         if(this.getSegment(camera.z).index === 290){
             this.finish = true;
