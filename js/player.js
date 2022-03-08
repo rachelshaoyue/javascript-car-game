@@ -25,9 +25,6 @@ class Player{
 
         // driving control parameters
         this.speed = 0;
-
-        this.moveRight = true;
-        this.moveLeft = true;
     }
 
     /**
@@ -67,27 +64,18 @@ class Player{
         this.z += this.speed * dt;
         if (this.z >= circuit.roadLength) this.z -= circuit.roadLength;
 
-        if (cursors.left.isDown) //  && this.x > -0.8
+        if (cursors.left.isDown && this.x > -0.8)
         {
             this.sprite.setVelocityX(-2);
             this.x = this.sprite.x - SCREEN_CX;
         }
-        else if (cursors.right.isDown) //  && this.x < 0.8
+        else if (cursors.right.isDown && this.x < 0.8)
         {
             this.sprite.setVelocityX(2);
             this.x = this.sprite.x - SCREEN_CX;
-
         }else{
             this.sprite.setVelocityX(0);
         }
 
-    }
-
-    setMoveRight(flag){
-        this.moveRight = flag;
-    }
-
-    setMoveLeft(flag){
-        this.moveLeft = flag;
     }
 }

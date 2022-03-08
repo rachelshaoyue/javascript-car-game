@@ -4,6 +4,7 @@
  * @author Srdjan Susnic
  * @copyright 2021 Ask for Game Task
  * @website http://www.askforgametask.com
+ * @author Rachel Taylor (updated the code)
  */
 
 // Global Constants
@@ -66,9 +67,10 @@ class MainScene extends Phaser.Scene{
         this.camera = new Camera(this);
         this.settings = new Settings(this);
 
+        this.player.sprite.setBounce(1);
         // add physics
-        this.physics.add.collider(this.cars.sprites, this.player.sprite, this.cars.hitPlayer, this.cars.test, this);
-        this.physics.add.collider(this.cars.sprites, this.player.sprite, this.cars.touchPlayer, this.cars.test, this);
+        this.physics.add.collider(this.cars.sprites, this.player.sprite, this.cars.hitPlayer, null, this);
+        this.physics.add.overlap(this.cars.sprites, this.player.sprite, this.cars.touchPlayer, null, this);
 
         // listener to pause game
         this.input.keyboard.on('keydown-P', function(){

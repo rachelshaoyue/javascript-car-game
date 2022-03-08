@@ -48,13 +48,14 @@ class Cars{
      * Hit the player
      */
     hitPlayer(player, car){
-        console.log("hitttt")
-        console.log("touching");
-        console.log(player.body.touching);
-        console.log("blocked");
-        console.log(player.body.blocked);
-        if(player.body.touching.right) this.player.setMoveRight(false);
-        if(player.body.touching.left) this.player.setMoveLeft(false);
+        // console.log("hitttt")
+        // console.log("touching");
+        // console.log(player.body.touching);
+        // console.log("blocked");
+        // console.log(player.body.blocked);
+        // if(player.body.touching.right) this.player.sprite.x -= 0.1;
+        // if(player.body.touching.left) this.player.sprite.x += 0.1;
+
 
     }
 
@@ -62,21 +63,10 @@ class Cars{
      * touches the player
      */
     touchPlayer(player, car){
-        console.log("touchhhh");
-        console.log("touching");
-        console.log(player.body.touching);
-        console.log("blocked");
-        console.log(player.body.blocked);
-
+        if(this.player.sprite.x > car.x){
+            this.player.sprite.x += .1;
+        }else{
+            this.player.sprite.x -= .1;
+        }
     }   
-
-    test(player, car){
-        console.log("TESTTTTTTT")
-
-        console.log("touchhhh");
-        console.log("touching");
-        console.log(player.body.touching);
-        console.log("blocked");
-        console.log(player.body.blocked);
-    }
 }
